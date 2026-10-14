@@ -19,8 +19,8 @@ set(DEUTIL_SRCS
 
 set(DEUTIL_LIBS debase dethread depool)
 
-if (DE_OS_IS_FUCHSIA)
- # Process launching isn't currently supported on Fuchsia in this library.
+if (DE_OS_IS_FUCHSIA OR DE_OS_IS_HORIZON)
+ # Process launching isn't supported on these platforms in this library.
  # Building executor and execserver will fail.
 else ()
 	set(DEUTIL_SRCS ${DEUTIL_SRCS} deProcess.c)
