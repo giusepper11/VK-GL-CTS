@@ -54,6 +54,10 @@ DE_STATIC_ASSERT(DE_PTR_SIZE == sizeof(void *));
 #include <assert.h>
 #include <string.h>
 
+#if (DE_OS == DE_OS_HORIZON)
+#include <stdlib.h>
+#endif
+
 #if (DE_OS == DE_OS_OSX) || (DE_OS == DE_OS_IOS) || defined(__FreeBSD__)
 #include <signal.h>
 #include <stdlib.h>
@@ -127,6 +131,9 @@ void deAssertFail(const char *reason, const char *file, int line)
 #elif (DE_OS == DE_OS_OSX) || (DE_OS == DE_OS_IOS) || defined(__FreeBSD__)
     fprintf(stderr, "Assertion '%s' failed at %s:%d\n", reason, file, line);
     raise(SIGTRAP);
+    abort();
+#elif (DE_OS == DE_OS_HORIZON)
+    fprintf(stderr, "Assertion '%s' failed at %s:%d\n", reason, file, line);
     abort();
 #elif (DE_OS == DE_OS_UNIX) || (DE_OS == DE_OS_FUCHSIA)
     __assert_fail(reason, file, (unsigned int)line, "Unknown function");

@@ -304,6 +304,10 @@ void SubprocessTestExecutor::spawnSubprocessCases(const std::string &groupPath)
         return;
     }
 
+#if (DE_OS == DE_OS_HORIZON)
+    DE_UNREF(groupPath);
+    TCU_THROW(NotSupportedError, "Subprocess execution is not supported on Horizon");
+#else
     std::vector<Item> groupSubprocessCases;
     for (const Item &i : m_subprocessCases)
     {
@@ -380,6 +384,7 @@ void SubprocessTestExecutor::spawnSubprocessCases(const std::string &groupPath)
     {
         waitForSubprocesses(0u, uint32_t(m_subprocesses.size()));
     }
+#endif
 }
 
 uint32_t SubprocessTestExecutor::updateRunStatus(TestRunStatus &runStatus)
@@ -435,15 +440,23 @@ SubprocessTestExecutor::Subprocess::Subprocess(uint32_t firstCase, uint32_t case
 
 SubprocessTestExecutor::Subprocess::~Subprocess()
 {
+#if (DE_OS == DE_OS_HORIZON)
+    DE_ASSERT(m_process == nullptr);
+#else
     if (m_process)
     {
         deProcess_destroy(m_process);
         m_process = nullptr;
     }
+#endif
 }
 
 bool SubprocessTestExecutor::Subprocess::isRunning(bool freeIfNotRunning)
 {
+#if (DE_OS == DE_OS_HORIZON)
+    DE_UNREF(freeIfNotRunning);
+    TCU_THROW(NotSupportedError, "Subprocess execution is not supported on Horizon");
+#else
     bool is = false;
     if (nullptr != m_process)
     {
@@ -456,6 +469,7 @@ bool SubprocessTestExecutor::Subprocess::isRunning(bool freeIfNotRunning)
         }
     }
     return is;
+#endif
 }
 
 int SubprocessTestExecutor::Subprocess::getExitCode() const

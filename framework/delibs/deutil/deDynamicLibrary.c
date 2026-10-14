@@ -114,6 +114,26 @@ deFunctionPtr deDynamicLibrary_getFunction(const deDynamicLibrary *library, cons
     return (deFunctionPtr)GetProcAddress(library->handle, symbolName);
 }
 
+#elif (DE_OS == DE_OS_HORIZON)
+/* Horizon links Vulkan statically and has no dynamic library loader. */
+deDynamicLibrary *deDynamicLibrary_open(const char *fileName)
+{
+    DE_UNREF(fileName);
+    return NULL;
+}
+
+void deDynamicLibrary_close(deDynamicLibrary *library)
+{
+    DE_UNREF(library);
+}
+
+deFunctionPtr deDynamicLibrary_getFunction(const deDynamicLibrary *library, const char *symbolName)
+{
+    DE_UNREF(library);
+    DE_UNREF(symbolName);
+    return NULL;
+}
+
 #else
 #error deDynamicLibrary is not implemented on this OS
 #endif

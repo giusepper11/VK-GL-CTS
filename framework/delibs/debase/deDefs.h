@@ -79,10 +79,13 @@
 #define DE_OS_IOS 7     /*!< iOS                                        */
 #define DE_OS_QNX 8     /*!< QNX                                        */
 #define DE_OS_FUCHSIA 9 /*!< Fuchsia                                    */
+#define DE_OS_HORIZON 10 /*!< Horizon (libnx)                              */
 
 /* OS detection (set to one of DE_OS_*). */
 #if defined(DE_OS)
 /* Allow definitions from outside. */
+#elif defined(__SWITCH__)
+#define DE_OS DE_OS_HORIZON
 #elif defined(__ANDROID__)
 #define DE_OS DE_OS_ANDROID
 #elif defined(_WIN32_WCE) || defined(UNDER_CE)

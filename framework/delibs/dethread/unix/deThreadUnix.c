@@ -24,7 +24,7 @@
 #include "deThread.h"
 
 #if (DE_OS == DE_OS_UNIX || DE_OS == DE_OS_OSX || DE_OS == DE_OS_ANDROID || DE_OS == DE_OS_SYMBIAN || \
-     DE_OS == DE_OS_IOS || DE_OS == DE_OS_QNX || DE_OS == DE_OS_FUCHSIA)
+     DE_OS == DE_OS_IOS || DE_OS == DE_OS_QNX || DE_OS == DE_OS_FUCHSIA || DE_OS == DE_OS_HORIZON)
 
 #include "deMemory.h"
 #include "deInt32.h"
@@ -201,7 +201,7 @@ uint32_t deGetNumAvailableLogicalCores(void)
 
 uint32_t deGetNumAvailableLogicalCores(void)
 {
-#if defined(_SC_NPROCESSORS_ONLN)
+#if defined(_SC_NPROCESSORS_ONLN) && (DE_OS != DE_OS_HORIZON)
     const long count = sysconf(_SC_NPROCESSORS_ONLN);
 
     if (count <= 0)
@@ -217,7 +217,7 @@ uint32_t deGetNumAvailableLogicalCores(void)
 
 uint32_t deGetNumTotalLogicalCores(void)
 {
-#if defined(_SC_NPROCESSORS_CONF)
+#if defined(_SC_NPROCESSORS_CONF) && (DE_OS != DE_OS_HORIZON)
     const long count = sysconf(_SC_NPROCESSORS_CONF);
 
     if (count <= 0)

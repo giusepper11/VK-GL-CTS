@@ -1,0 +1,2 @@
+dEQP-VK.pipeline.monolithic.depth.depth_only.separate_render_passes_prepass
+dEQP-VK.pipeline.monolithic.depth.depth_only.separate_render_passes_postpass
